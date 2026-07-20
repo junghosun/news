@@ -1,0 +1,112 @@
+# Copy this to config.yaml and edit. Secrets stay in environment variables,
+# not here (see README).
+
+# Used to identify you to OpenAlex's "polite pool" (any email of yours).
+contact_email: you@example.com
+
+# Model for relevance scoring + summaries. Cheap model is plenty here.
+# Bump to a stronger model if you want sharper distillations.
+model: claude-haiku-4-5-20251001
+
+lookback_days: 7          # how many days of new articles to consider
+max_articles: 15          # cap on articles in the email
+max_news_per_region: 15
+news_language: 中文        # language of the news summaries (e.g. 中文 / English)
+
+source_cache: sources.json
+seen_cache: seen.json      # DOIs already emailed, so you don't see repeats
+
+# --- Journals to watch. Names are resolved to OpenAlex source IDs automatically. ---
+journals:
+  - American Political Science Review
+  - American Journal of Political Science
+  - The Journal of Politics
+  - British Journal of Political Science
+  - Comparative Political Studies
+  - Comparative Politics
+  - World Politics
+  - International Organization
+  - Perspectives on Politics
+  - Political Analysis
+  - Political Science Research and Methods
+  - Legislative Studies Quarterly
+  - Party Politics
+  - Electoral Studies
+  - Democratization
+  - Journal of East Asian Studies
+
+# --- Your research interests. This is a starting draft based on comparative
+#     politics + Korean/East Asian politics + quantitative methods. Edit freely. ---
+interest_profile: |
+  A political scientist working at the intersection of Korean and East Asian
+  politics, comparative politics, and quantitative methods. Substantive interests:
+  legislatures and legislative behaviour (co-sponsorship, roll-call voting, party
+  discipline), elections and campaigns, parties and party systems, democratization
+  and authoritarian politics, executive politics, political accountability
+  (prosecution and pardons of former leaders). Methodological interests: network
+  analysis, survival analysis, causal inference, text-as-data, and computational
+  approaches, especially work that builds original datasets. Prefers empirically
+  rigorous, methodologically innovative work; less interested in normative theory
+  or pure IR unless it touches these themes.
+
+# Cheap keyword prefilter before the model sees anything. Broad is fine.
+keywords:
+  - legislat
+  - co-sponsor
+  - cosponsor
+  - roll-call
+  - roll call
+  - parliament
+  - party
+  - parties
+  - election
+  - campaign
+  - vote
+  - voting
+  - democrat
+  - authoritarian
+  - regime
+  - executive
+  - president
+  - pardon
+  - prosecut
+  - accountability
+  - Korea
+  - East Asia
+  - network
+  - survival analysis
+  - causal
+  - text as data
+  - dataset
+
+# --- Regional news feeds (Google News locale params). ---
+regions:
+  - name: 韩国政治
+    query: 한국 정치 when:1d
+    hl: ko
+    gl: KR
+    ceid: KR:ko
+  - name: 马来西亚政治
+    query: Malaysia politics when:1d
+    hl: en-MY
+    gl: MY
+    ceid: MY:en
+  - name: 菲律宾政治
+    query: Philippine politics when:1d
+    hl: en-PH
+    gl: PH
+    ceid: PH:en
+  - name: 台湾政治
+    query: 台灣 政治 when:1d
+    hl: zh-TW
+    gl: TW
+    ceid: TW:zh-Hant
+
+# --- Email delivery. Username/password come from env vars, not this file. ---
+email:
+  smtp_host: smtp.gmail.com
+  smtp_port: 587
+  from: you@gmail.com
+  to:
+    - you@gmail.com
+  subject_prefix: 每日研究简报
