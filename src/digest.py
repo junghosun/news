@@ -1,5 +1,6 @@
 """Assemble the HTML email body from regional news and literature picks.
-News comes first (it appears daily); literature follows (it is intermittent)."""
+News comes first (daily); literature follows (intermittent). News is grouped
+into themes, each with its own summary and its own links."""
 
 import html
 from datetime import date
@@ -11,8 +12,24 @@ def _esc(x):
     return html.escape(str(x or ""))
 
 
+def _headline(it, base):
+    title = _esc(it["title"])
+    if it.get("link"):
+        title = (
+            f'<a href="{_esc(it["link"])}" '
+            f'style="color:#1a4fa0;text-decoration:none;">{title}</a>'
+        )
+    src = (
+        f' <span style="color:#888;">&mdash; {_esc(it["source"])}</span>'
+        if it.get("source")
+        else ""
+    )
+    return f'<div style="margin:4px 0;font-size:{base - 1}px;">{title}{src}</div>'
+
+
 def build_html(lit_items, regions, base_font_size=15, today=None):
-    """regions: list of {"name", "summary" (str|None), "items": [{title, link, source}]}."""
+    """regions: list of {"name", "themes" (list|None), "items": [...]}.
+    A theme is {"heading", "summary", "items": [{title, link, source}]}."""
     today = today or date.today().isoformat()
     base = base_font_size
     container = (
@@ -33,27 +50,27 @@ def build_html(lit_items, regions, base_font_size=15, today=None):
     )
     for r in regions:
         parts.append(
-            f'<div style="font-size:{base + 1}px;font-weight:700;margin:16px 0 4px;">'
-            f'{_esc(r["name"])}</div>'
+            f'<div style="font-size:{base + 2}px;font-weight:700;margin:18px 0 6px;'
+            f'border-bottom:1px solid #ddd;padding-bottom:3px;">{_esc(r["name"])}</div>'
         )
-        if r.get("summary"):
-            parts.append(f'<div style="margin-bottom:6px;">{_esc(r["summary"])}</div>')
-        items = r.get("items") or []
-        if not items:
-            parts.append('<div style="color:#777;">No news today.</div>')
-        for it in items:
-            title = _esc(it["title"])
-            if it.get("link"):
-                title = (
-                    f'<a href="{_esc(it["link"])}" '
-                    f'style="color:#1a4fa0;text-decoration:none;">{title}</a>'
-                )
-            src = (
-                f' <span style="color:#888;">&mdash; {_esc(it["source"])}</span>'
-                if it.get("source")
-                else ""
-            )
-            parts.append(f'<div style="margin:4px 0;">{title}{src}</div>')
+        themes = r.get("themes")
+        if themes:
+            for n, t in enumerate(themes, 1):
+                if t.get("heading"):
+                    parts.append(
+                        f'<div style="font-weight:700;margin:12px 0 3px;">'
+                        f'{n}. {_esc(t["heading"])}</div>'
+                    )
+                if t.get("summary"):
+                    parts.append(f'<div style="margin-bottom:5px;">{_esc(t["summary"])}</div>')
+                for it in t.get("items", []):
+                    parts.append(_headline(it, base))
+        else:
+            items = r.get("items") or []
+            if not items:
+                parts.append('<div style="color:#777;">No news today.</div>')
+            for it in items:
+                parts.append(_headline(it, base))
 
     # ---- Literature after ----
     parts.append(

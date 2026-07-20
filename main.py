@@ -71,7 +71,7 @@ def main():
             r["name"], items, client, model,
             out_language=cfg.get("news_language", "English"),
         )
-        regions.append({"name": r["name"], "summary": summary, "items": items})
+        regions.append({"name": r["name"], "themes": summary, "items": items})
 
     # ---------- Email ----------
     html_body = digest.build_html(
