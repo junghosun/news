@@ -1,5 +1,5 @@
 """Collect same-day political news per region from Google News RSS and
-summarise each region with Claude."""
+(optionally) summarise each region with Claude."""
 
 import urllib.parse
 
@@ -10,10 +10,7 @@ def fetch_region_news(query, hl, gl, ceid, max_items=15):
     """query: search terms (a `when:1d` clause keeps it to the last day).
     hl/gl/ceid: Google News locale params, e.g. hl=ko, gl=KR, ceid=KR:ko."""
     q = urllib.parse.quote(query)
-    url = (
-        f"https://news.google.com/rss/search?q={q}"
-        f"&hl={hl}&gl={gl}&ceid={ceid}"
-    )
+    url = f"https://news.google.com/rss/search?q={q}&hl={hl}&gl={gl}&ceid={ceid}"
     feed = feedparser.parse(url)
     items = []
     for e in feed.entries[:max_items]:
@@ -31,22 +28,21 @@ def fetch_region_news(query, hl, gl, ceid, max_items=15):
     return items
 
 
-def summarize_region(region_name, items, client, model, out_language="中文"):
-    """Return a short prose summary of the region's day. Falls back to a
-    headline list when no model client is available."""
-    if not items:
-        return "（今日无相关新闻）"
+def summarize_region(region_name, items, client, model, out_language="English"):
+    """Return a short prose summary, or None when no model is available
+    (in which case the digest just lists the headlines)."""
+    if client is None or not items:
+        return None
     headlines = "\n".join(
         f"- {it['title']}" + (f" ({it['source']})" if it["source"] else "")
         for it in items
     )
-    if client is None:
-        return headlines
     prompt = (
-        f"以下是关于{region_name}的今日新闻标题。请用{out_language}写一段简洁的综述"
-        "（3-5 句），提炼今天该地区政治领域最重要的动态与主题，突出趋势和关联，"
-        "不要逐条罗列，不要编造标题之外的内容。\n\n"
-        f"标题：\n{headlines}"
+        f"Below are today's news headlines about {region_name}. Write a concise "
+        f"summary (3-5 sentences) in {out_language} capturing the most important "
+        f"political developments and themes today. Highlight trends and connections "
+        f"rather than listing items one by one. Do not invent anything beyond the "
+        f"headlines.\n\nHeadlines:\n{headlines}"
     )
     msg = client.messages.create(
         model=model,

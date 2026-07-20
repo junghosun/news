@@ -60,20 +60,23 @@ def main():
     print(f"  {len(lit_items)} articles selected")
 
     # ---------- News ----------
-    region_summaries = {}
+    regions = []
     for r in cfg["regions"]:
         print(f"Fetching news: {r['name']}")
         items = news.fetch_region_news(
             r["query"], r["hl"], r["gl"], r["ceid"],
             max_items=cfg.get("max_news_per_region", 15),
         )
-        region_summaries[r["name"]] = news.summarize_region(
+        summary = news.summarize_region(
             r["name"], items, client, model,
-            out_language=cfg.get("news_language", "中文"),
+            out_language=cfg.get("news_language", "English"),
         )
+        regions.append({"name": r["name"], "summary": summary, "items": items})
 
     # ---------- Email ----------
-    html_body = digest.build_html(lit_items, region_summaries)
+    html_body = digest.build_html(
+        lit_items, regions, base_font_size=cfg.get("base_font_size", 15)
+    )
     email = cfg["email"]
     mailer.send_email(
         smtp_host=email["smtp_host"],
