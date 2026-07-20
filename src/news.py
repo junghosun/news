@@ -79,7 +79,5 @@ def summarize_region(region_name, items, client, model, out_language="English"):
                 "items": theme_items,
             }
         )
-    leftovers = [items[i] for i in range(len(items)) if i not in used]
-    if leftovers:
-        themes.append({"heading": "More", "summary": "", "items": leftovers})
+    # Articles the model did not assign to any theme are dropped on purpose.
     return themes
