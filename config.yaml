@@ -107,8 +107,8 @@ regions:
 
 # --- Email delivery. Username/password come from env vars, not this file. ---
 email:
-  smtp_host: junghopolsci@gmail.com
-  smtp_port: fjkprhuxdlttvgbx
+  smtp_host: smtp.gmail.com
+  smtp_port: 587
   from: junghopolsci@gmail.com
   to:
     - jungho1507@outlook.kr
