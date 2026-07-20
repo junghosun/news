@@ -11,7 +11,7 @@ model: claude-haiku-4-5-20251001
 lookback_days: 7          # how many days of new articles to consider
 max_articles: 15          # cap on articles in the email
 max_news_per_region: 15
-news_language: 中文        # language of the news summaries (e.g. 中文 / English)
+news_language: English        # language of the news summaries (e.g. 中文 / English)
 
 source_cache: sources.json
 seen_cache: seen.json      # DOIs already emailed, so you don't see repeats
@@ -81,22 +81,22 @@ keywords:
 
 # --- Regional news feeds (Google News locale params). ---
 regions:
-  - name: 韩国政治
+  - name: Korean Politics
     query: 한국 정치 when:1d
     hl: ko
     gl: KR
     ceid: KR:ko
-  - name: 马来西亚政治
+  - name: Malaysian Politics
     query: Malaysia politics when:1d
     hl: en-MY
     gl: MY
     ceid: MY:en
-  - name: 菲律宾政治
+  - name: Philippine Politics
     query: Philippine politics when:1d
     hl: en-PH
     gl: PH
     ceid: PH:en
-  - name: 台湾政治
+  - name: Taiwanese Politics
     query: 台灣 政治 when:1d
     hl: zh-TW
     gl: TW
