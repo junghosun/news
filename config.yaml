@@ -106,7 +106,7 @@ regions:
 email:
   smtp_host: smtp.gmail.com
   smtp_port: 587
-  from: you@gmail.com
+  from: junghopolsci@gmail.com
   to:
-    - you@gmail.com
-  subject_prefix: 每日研究简报
+    - jungho1507@outlook.kr
+  subject_prefix: Daily news_Jungho
