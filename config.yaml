@@ -2,7 +2,7 @@
 # not here (see README).
 
 # Used to identify you to OpenAlex's "polite pool" (any email of yours).
-contact_email: you@example.com
+contact_email: jungho1507@outlook.kr
 
 # Model for relevance scoring + summaries. Cheap model is plenty here.
 # Bump to a stronger model if you want sharper distillations.
@@ -11,7 +11,7 @@ model: claude-haiku-4-5-20251001
 lookback_days: 7          # how many days of new articles to consider
 max_articles: 15          # cap on articles in the email
 max_news_per_region: 15
-news_language: 中文        # language of the news summaries (e.g. 中文 / English)
+news_language: English        # language of the news summaries (e.g. 中文 / English)
 
 source_cache: sources.json
 seen_cache: seen.json      # DOIs already emailed, so you don't see repeats
@@ -36,7 +36,7 @@ journals:
   - Journal of East Asian Studies
 
 # --- Your research interests. This is a starting draft based on comparative
-#     politics + Korean/East Asian politics + quantitative methods. Edit freely. ---
+#     politics + East Asian politics + quantitative methods. Edit freely. ---
 interest_profile: |
   A political scientist working at the intersection of Korean and East Asian
   politics, comparative politics, and quantitative methods. Substantive interests:
@@ -48,6 +48,9 @@ interest_profile: |
   approaches, especially work that builds original datasets. Prefers empirically
   rigorous, methodologically innovative work; less interested in normative theory
   or pure IR unless it touches these themes.
+  Also, my another subscriber is an Assistant Professor in the Department of Political Science at the National University of Singapore. 
+  His primary research interest is in democratization in East and Southeast Asia, with a specific focus on the role of opposition parties. 
+
 
 # Cheap keyword prefilter before the model sees anything. Broad is fine.
 keywords:
@@ -104,9 +107,9 @@ regions:
 
 # --- Email delivery. Username/password come from env vars, not this file. ---
 email:
-  smtp_host: smtp.gmail.com
-  smtp_port: 587
-  from: you@gmail.com
+  smtp_host: junghopolsci@gmail.com
+  smtp_port: fjkprhuxdlttvgbx
+  from: junghopolsci@gmail.com
   to:
-    - you@gmail.com
-  subject_prefix: 每日研究简报
+    - jungho1507@outlook.kr
+  subject_prefix: Daily news_Jungho
