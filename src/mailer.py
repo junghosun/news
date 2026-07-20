@@ -7,6 +7,8 @@ from email.mime.text import MIMEText
 
 
 def send_email(smtp_host, smtp_port, username, password, sender, recipients, subject, html_body):
+    smtp_host = str(smtp_host).strip()
+    smtp_port = int(str(smtp_port).strip())
     msg = MIMEMultipart("alternative")
     msg["Subject"] = subject
     msg["From"] = sender
