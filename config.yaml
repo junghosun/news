@@ -9,8 +9,8 @@ contact_email: you@example.com
 model: claude-haiku-4-5-20251001
 
 lookback_days: 7          # how many days of new articles to consider
-max_articles: 15          # cap on articles in the email
-max_news_per_region: 15
+max_articles: 5          # cap on articles in the email
+max_news_per_region: 5
 news_language: English        # language of the news summaries (e.g. 中文 / English)
 
 source_cache: sources.json
@@ -101,6 +101,11 @@ regions:
     hl: zh-TW
     gl: TW
     ceid: TW:zh-Hant
+  - name: Japanese Politics
+    query: 日本 政治 when:1d
+    hl: ja
+    gl: JP
+    ceid: JP:ja
 
 # --- Email delivery. Username/password come from env vars, not this file. ---
 email:
