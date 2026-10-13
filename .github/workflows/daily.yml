@@ -3,7 +3,12 @@ name: weekly-digest
 on:
   schedule:
     - cron: "0 0 * * 3"
-  workflow_dispatch: {}
+  workflow_dispatch:
+    inputs:
+      ignore_seen:
+        description: "Include papers already sent (preview only; does not affect de-duplication)"
+        type: boolean
+        default: false
 
 jobs:
   run:
