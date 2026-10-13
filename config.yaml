@@ -1,0 +1,221 @@
+# Secrets (SMTP login, API key) stay in GitHub Secrets, not in this file.
+
+# Identifies you to OpenAlex's "polite pool" (any email of yours).
+contact_email: junghopolsci@gmail.com
+
+# Model for scoring and summaries.
+model: claude-haiku-4-5-20251001
+
+# ---- Schedule-related settings (the run itself is set in the workflow file) ----
+lookback_days: 10         # weekly run; 10 days gives a small overlap, de-duplicated by seen.json
+news_window: 7d           # how far back Google News is searched (1d, 7d, ...)
+
+# ---- Output limits ----
+max_articles: 7           # at most this many publications (highest relevance first)
+min_relevance_score: 3    # 0-5; publications below this are never shown
+max_candidates: 120       # articles sent to the model after the keyword prefilter
+max_news_per_region: 5    # at most this many stories per country
+news_candidates_per_region: 40
+news_language: English
+base_font_size: 15
+
+source_cache: sources.json
+seen_cache: seen.json
+
+# ---- Journals ----
+journals:
+  - American Political Science Review
+  - American Journal of Political Science
+  - Political Analysis
+  - Comparative Political Studies
+  - The Journal of Politics
+  - Political Communication
+  - British Journal of Political Science
+  - European Journal of Political Research
+  - International Political Science Review
+  - Journal of Democracy
+  - Politics & Society
+  - Political Psychology
+  - Perspectives on Politics
+  - Democratization
+  - Political Behavior
+  - Journal of Experimental Political Science
+  - Electoral Studies
+  - Public Opinion Quarterly
+  - Political Science Research and Methods
+  - Political Studies
+  - Party Politics
+  - Quarterly Journal of Political Science
+  - International Organization
+  - World Politics
+  - Journal of Contemporary Asia
+  - The Journal of Asian Studies
+  - Asian Survey
+  - Journal of East Asian Studies
+  - Critical Asian Studies
+  - Asian Studies Review
+  - Pacific Affairs
+
+# ---- Research context for choosing publications (from the project proposal) ----
+interest_profile: |
+  PRIMARY FOCUS (weight most heavily): the research project "After Victory:
+  Governance Outcomes, Political Stability, and Institutional Reform in East and
+  Southeast Asia". It asks what happens after an opposition party or alliance
+  defeats a long-dominant (often autocratic or conservative) incumbent and takes
+  office. Cases: Malaysia 2018-2022, the Philippines 1986-1992, Myanmar 2010-2021,
+  South Korea 1987-2003, Japan 1993-94 and 2009-12, Taiwan 1996-2008.
+  Three sets of outcomes: (1) governance, meaning whether new governments deliver
+  security and economic governance, sustain growth, and how foreign policy changes;
+  (2) political stability, meaning partisan polarisation, inter-party elite
+  manoeuvring, defections and coalition collapse, mobilisation by the ex-ruling
+  regime, and the role of the military; (3) institutional reform, meaning when
+  election commissions are strengthened, judiciaries become independent and media
+  institutions are empowered, and why governments hesitate to constrain their own
+  executive power. Hypotheses: appointing ex-regime insider elites, persuading
+  one's own supporters to moderate reform expectations, and reaching a modus
+  vivendi with the military each improve outcomes. Methods: cross-country process
+  tracing, event sequencing, archival and interview evidence. The project is framed
+  against the older "democratic consolidation" literature, which focused on
+  authoritarian reversal rather than the new government's own governance and reform.
+
+  HIGHLY RELEVANT: regime turnover and opposition victory; opposition parties and
+  coalitions before and after taking power; democratic consolidation and backsliding
+  after turnover; governance and policy performance of post-authoritarian or
+  post-dominant-party governments; civil-military relations and coups; executive
+  power, executive constraints and institutional reform; election commissions,
+  judicial independence and media freedom; elite defections, party switching and
+  coalition instability; polarisation after turnover; transitional justice and the
+  treatment of ex-incumbents; process tracing and comparative historical methods.
+  Strong geographic relevance: Malaysia, the Philippines, Myanmar, South Korea,
+  Japan, Taiwan, Singapore, and Southeast and East Asia generally. Comparable cases
+  elsewhere (for example Zambia, Tunisia, Egypt, Latin America, post-communist
+  Europe) are also valuable when they speak to the same questions.
+
+  SECONDARY (lower weight): Korean politics and legislative behaviour, executive
+  accountability, and quantitative or computational methods (network analysis,
+  survival analysis, causal inference, text as data).
+
+  LESS RELEVANT: normative theory, pure IR or security studies, American politics,
+  and public opinion or political psychology work, unless it bears on regime
+  turnover, opposition politics or democratic institutions in Asia or comparable
+  contexts.
+
+# Cheap keyword prefilter (any match keeps an article; more matches rank higher).
+keywords:
+  - opposition
+  - turnover
+  - alternation
+  - transition
+  - democra
+  - autocra
+  - authoritarian
+  - regime
+  - dominant party
+  - hybrid regime
+  - consolidat
+  - backslid
+  - coalition
+  - defection
+  - party switch
+  - military
+  - coup
+  - civil-military
+  - election commission
+  - electoral management
+  - judicial
+  - judiciary
+  - media freedom
+  - institutional reform
+  - reform
+  - polariz
+  - transitional justice
+  - elite
+  - governance
+  - state capacity
+  - stability
+  - executive
+  - presidential
+  - parliament
+  - legislat
+  - incumbent
+  - process tracing
+  - comparative historical
+  - Asia
+  - Malaysia
+  - Philippine
+  - Myanmar
+  - Burma
+  - Korea
+  - Japan
+  - Taiwan
+  - Singapore
+
+# ---- Research context for choosing news ----
+news_focus: |
+  The reader is a political scientist following East and Southeast Asian politics.
+  The research focus is what happens after an opposition party or alliance replaces
+  a long-dominant incumbent: governance performance of new governments, political
+  stability (polarisation, elite defections, coalition collapse, the role of the
+  military), and institutional reform (election commissions, judiciaries, media,
+  limits on executive power). Prefer stories about government formation and
+  collapse, coalition and party politics, defections, elections and electoral
+  rules, executive-legislative conflict, judicial and prosecutorial reform,
+  civil-military relations, the treatment of former leaders, and constitutional or
+  institutional change. Prefer reported events over opinion pieces. Drop stories
+  that are not politically significant: crime, accidents, disasters, entertainment,
+  sport, lifestyle, local human-interest items, routine business news,
+  advertisements and press releases.
+
+# ---- Regions. `query` is the general political search; `extra_queries` are
+#      research-themed searches whose results are merged into the same pool. ----
+regions:
+  - name: Korean Politics
+    query: 한국 정치
+    extra_queries:
+      - 개헌 OR 검찰개혁 OR 사법개혁
+      - 여야 대치 OR 탈당 OR 합당 국회
+    hl: ko
+    gl: KR
+    ceid: KR:ko
+  - name: Japanese Politics
+    query: 日本 政治
+    extra_queries:
+      - 連立 OR 政権 OR 解散 総選挙
+      - 政治改革 OR 憲法改正 OR 野党
+    hl: ja
+    gl: JP
+    ceid: JP:ja
+  - name: Malaysian Politics
+    query: Malaysia politics
+    extra_queries:
+      - Malaysia coalition OR defection OR unity government
+      - Malaysia Election Commission OR judiciary OR constitutional reform
+    hl: en-MY
+    gl: MY
+    ceid: MY:en
+  - name: Philippine Politics
+    query: Philippine politics
+    extra_queries:
+      - Philippines Senate OR impeachment OR coalition politics
+      - Philippines COMELEC OR judiciary OR military OR institutional reform
+    hl: en-PH
+    gl: PH
+    ceid: PH:en
+  - name: Taiwanese Politics
+    query: 台灣 政治
+    extra_queries:
+      - 立法院 朝野協商 OR 修憲 OR 罷免
+      - 司法改革 OR 中選會 OR 國軍 政治
+    hl: zh-TW
+    gl: TW
+    ceid: TW:zh-Hant
+
+# ---- Email delivery. Username and password come from GitHub Secrets. ----
+email:
+  smtp_host: smtp.gmail.com
+  smtp_port: 587
+  from: junghopolsci@gmail.com
+  to:
+    - jungho1507@outlook.kr
+    # - second-recipient@example.com
+  subject_prefix: Weekly news_Jungho
