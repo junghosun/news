@@ -1,8 +1,8 @@
-name: daily-digest
+name: weekly-digest
 
 on:
   schedule:
-    - cron: "0 23 * * *"
+    - cron: "0 0 * * 3"
   workflow_dispatch: {}
 
 jobs:
