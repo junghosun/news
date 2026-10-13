@@ -56,7 +56,7 @@ def main():
     lit_items = literature.select_top(
         candidates, cfg["interest_profile"], client, model,
         top_n=cfg.get("max_articles", 7),
-        min_score=cfg.get("min_relevance_score", 3),
+        min_score=cfg.get("min_relevance_score", 2),
     )
     print(f"  {len(lit_items)} articles selected")
 
